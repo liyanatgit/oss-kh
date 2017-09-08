@@ -44,3 +44,11 @@ git-bashを利用し、設定はLinuxの場合とほぼ同じ
 #### 4.1  [Windows7からGitHubへSSH接続する手順(プロキシ環境有)](http://qiita.com/busonx/items/2efc10a18d7a46f14555)
 
 #### 4.2 [~/.ssh/configについて](http://qiita.com/passol78/items/2ad123e39efeb1a5286b)
+
+#### 4.3 [Password dialog appears when SSH private key permissions are set to 0600](https://apple.stackexchange.com/questions/18458/password-dialog-appears-when-ssh-private-key-permissions-are-set-to-0600)
+You have to enter the passphrase for the private key somewhere, and OS X uses ssh-agent by default.
+
+If you want to use ssh-agent but want to avoid the gui dialog box, you can use ssh-add to add the passphrase to the agent and then ssh as usual.
+
+If do not want to use ssh-agent and instead have ssh prompt for the passphrase, then unset the SSH_AUTH_SOCK environment variable.
+
