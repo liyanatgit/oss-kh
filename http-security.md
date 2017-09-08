@@ -6,6 +6,7 @@ HTTP Security
 
 [How to clear HSTS settings in Chrome and Firefox](https://www.thesslstore.com/blog/clear-hsts-settings-chrome-firefox/)
 
+#### 試験サイトなどで、HSTS問題となる場合、オレオレCAを信頼すれば問題解消可能
 
 ## HPKP(HTTP-based public key pinning)
 [不正なSSL証明書を見破るPublic Key Pinningを試す](http://d.hatena.ne.jp/jovi0608/20140902/1409635279)

@@ -38,3 +38,25 @@ openssl req -text < fqdn.csr
 ### 5.4 apply a certification file
 prepair openssl.cnf, uncomment copy_extensions = copy  
 openssl ca -in private/fqdn.csr -out certs/fqdn.cer -md sha256
+
+## 6. java jks
+### 6.1 generate rsk from keytool
+    keytool -genkeypair -keyalg rsa -keysize 2048 -validity 3650 -keystore me.keystore
+
+### 6.2 request a csr file
+    keytool -certreq -alias mykey -file me.csr -keystore me.keystore
+
+### 6.3 apply a certification file
+    openssl ca -in private/me.csr -out certs/me.cer -md sha256
+
+### 6.4 import ca cert to jvm cacerts and certificate file to keystore
+    keytool -import -trustcacerts -file ca.cer -keystore cacers
+    keytool -import -trustcacerts -file me.cer -keystore me.keystore
+
+## 7. java jks need a san name
+generate a san certs from openssl, change it to p12, and to jks.
+```
+openssl pkcs12 -export -keypbe PBE-SHA1-3DES -certpbe PBE-SHA1-3DES -export -in certs/fqdn.cer -inkey private/fqdn.key -out certs/fqdn.p12
+
+keytool -importkeystore -destkeystore me.jks -deststoretype JKS -srcstoretype PKCS12 -srckeystore fqdn.p12
+```  
