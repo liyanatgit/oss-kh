@@ -35,7 +35,13 @@ env　変数名=設定する値 コマンド コマンドオプション
     #less /etc/hostname
 HostnameのIPに対応する            
 
+### ■ 認証などが必要なURLのダウンロード
 
+ブラウザよりURLのサイトにログインし、ダウンロードファイルのURLおよび必要となるHttpHeader情報(CookieやAuthorizationなど)をブラウザのプラグインなど（saml-tracer, httpheadersなど）から取得
+
+    wget --header "Cookie: bb_session=s4gxb7x8crugz9yjtwcuvcbivjpwbso5" https://bitbucket.org/xxx/yyy/raw/.../zzz.war
+
+    wget --header "Authorization: Basic dGVzdDp0ZXN0" http://test.example.com/test/xxx.jar
 
 ## ★ ファイル処理系
 

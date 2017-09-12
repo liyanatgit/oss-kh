@@ -8,6 +8,17 @@ git-tips
 
 
 ## proxy設定
+### windows git shell
+/c/Users/xxx/.ssh/config にて、以下を追記
+```
+# proxy to github
+Host github-p
+        HostName ssh.github.com
+        User git
+        Port 443
+        IdentityFile "c:\Users\xxx\.ssh\id_rsa"
+        ProxyCommand connect.exe -H $proxy-server:$port %h %p
+```
 
 
 ## trouble shooting
