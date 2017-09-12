@@ -2,7 +2,19 @@ git-tips
 ===
 
 ##  利用方法
-
+### リモートにて空のリポジトリを作成し、ローカルからPushする方法
+#### リモート
+　例えば、githubにてリポジトリ(test)を作成
+#### ローカル
+```
+echo "# life" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin git@github.com:gituser/life.git
+git push -u origin master
+```
+behind proxy環境では、.ssh/configにてproxy接続項目を定義
 
 ## ssh認証設定
 
@@ -20,6 +32,7 @@ Host github-p
         ProxyCommand connect.exe -H $proxy-server:$port %h %p
 ```
 
+## iOS  git2Go App!
 
 ## trouble shooting
 ####  windowsのatomでpull/push失敗
