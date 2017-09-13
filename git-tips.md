@@ -16,7 +16,26 @@ git push -u origin master
 ```
 behind proxy環境では、.ssh/configにてproxy接続項目を定義
 
+### ローカルにて、リモートのリポジトリをCloneする方法
+
+```
+$ git clone git@github.com:xxx/oss-kh.git oss-kh
+Cloning into 'oss-kh'...
+Enter passphrase for key '/Users/xxx/.ssh/id_rsa':
+remote: Counting objects: 55, done.
+remote: Compressing objects: 100% (40/40), done.
+remote: Total 55 (delta 25), reused 37 (delta 13), pack-reused 0
+Receiving objects: 100% (55/55), 12.63 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (25/25), done.
+```
+
+ssh認証以外、https接続の利用も可能
+git clone https://github.com/xxx/oss-kh.git oss-kh
+
+
 ## ssh認証設定
+
+githubのSettingにて、公開鍵を登録  
 
 
 ## proxy設定
