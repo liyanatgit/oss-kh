@@ -29,7 +29,7 @@ Receiving objects: 100% (55/55), 12.63 KiB | 0 bytes/s, done.
 Resolving deltas: 100% (25/25), done.
 ```
 
-ssh認証以外、https接続の利用も可能
+ssh認証以外、https接続の利用も可能  
 git clone https://github.com/xxx/oss-kh.git oss-kh
 
 
