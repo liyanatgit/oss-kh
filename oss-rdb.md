@@ -39,6 +39,7 @@ pwd-->Changeit!=123
 
 MySQL へのログイン確認  
 mysql -u root -p  
+exit
 
 設定変更 /etc/my.cnfに以下を追加  
 ```
