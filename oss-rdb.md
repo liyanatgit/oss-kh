@@ -3,6 +3,123 @@ OSS RDBS know-how
 
 ## ★ PostgreSQL
 
+### ■　構築
+#### 1.構築済みのpostgresを削除
+```
+[root@blaze ~]# rpm -qa | grep postgres
+postgresql94-contrib-9.4.10-1PGDG.rhel7.x86_64
+postgresql94-server-9.4.10-1PGDG.rhel7.x86_64
+postgresql94-9.4.10-1PGDG.rhel7.x86_64
+postgresql94-devel-9.4.10-1PGDG.rhel7.x86_64
+postgresql94-libs-9.4.10-1PGDG.rhel7.x86_64
+
+[root@blaze ~]# yum remove postgresql94-server-9.4.10
+......
+[root@blaze ~]# yum remove postgresql94-libs-9.4.10
+
+[root@blaze lib]# du -sh /var/lib/pgsql/
+56M     /var/lib/pgsql/
+[root@blaze lib]# rm -rf /var/lib/pgsql/
+
+[root@blaze ~]# userdel postgres
+```
+
+#### 2.PostgreSQL9.5をCentOS7に導入
+REF: http://vdeep.net/centos7-postgres  
+下記公式サイトから最新版のPostgreSQLのリポジトリURLを取得  
+http://yum.postgresql.org/repopackages.php
+PostgreSQL 9.5 -- CentOS 7 - x86_64
+https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-3.noarch.rpm
+
+```
+[root@blaze ~]# less /etc/redhat-release
+CentOS Linux release 7.2.1511 (Core)
+
+--yum repo install and edit
+# rpm -iUvh https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-3.noarch.rpm
+
+# vi /etc/yum.repos.d/pgdg-95-centos.repo
+[pgdg95]
+...省略...
+enabled=1
+↓
+enabled=0
+
+-- yum install postgresql9.5
+# yum -y install --enablerepo=pgdg95 postgresql95-server postgresql95-devel postgresql95-contrib
+
+[root@blaze ~]# psql --version
+psql (PostgreSQL) 9.5.9
+
+-- initdb
+[root@blaze ~]# /usr/pgsql-9.5/bin/postgresql95-setup initdb
+Initializing database ... OK
+
+-- start/stop/status
+# systemctl status|start|stop postgresql-9.5
+
+-- passwd
+# passwd postgres
+```
+
+#### 3. Postgresql初期設定
+設定ファイルフォルダ： /var/lib/pgsql/9.x/data/  
+外部サーバーからのアクセスを許可するには「/var/lib/pgsql/9.5/data/postgresql.conf」を次のように編集することで設定。デフォルトではローカル（127.0.0.1）のみ許可されています。お好みで設定してください。  
+https://www.postgresql.jp/document/9.5/html/auth-pg-hba-conf.html  
+PostgreSQLはインストールしただけでは、自ホストからしか接続できず、他のホストから利用できない。  
+他ホストから接続するための設定を行う  
+ 1.postgresq.confファイルの修正し、外部からのアクセスを可能とする（listen_addressesの設定） ```listen_addresses = '*' ```   
+ 2.iptables/firewalldにて、ポートを開ける(5432)  
+ 3.接続できるクライアントを設定（pg_hba.conf ==> host)   
+TYPE  DATABASE        USER            ADDRESS                 METHOD  
+host    all             all           10.217.205.81/32        md5  
+METHOD: md5 -pwdハッシュ認証  password -平文　 trust -無条件許可
+
+```
+# vi /var/lib/pgsql/9.5/data/postgresql.conf
+---外部アクセス許可
+# 59行目あたり
+#listen_addresses = 'localhost'
+↓
+listen_addresses = '*'
+
+---クライアントの認証設定
+# vi /var/lib/pgsql/9.5/data/pg_hba.conf
+#TYPE DATABASE USER   ADDRESS          METHOD
+# "local" is for Unix domain socket connections only
+#local   all             all                                     peer
+local   all             all                                     trust
+#add new client by password hash authn.
+host   all     all    192.168.0.11/32  md5
+
+---create db USER
+#su - postgres
+-bash-4.2$ createuser -P testuser
+ 新しいロールのためのパスワード: testuser00
+
+--- change password for super db user/role (postgres)
+ postgres=# alter role postgres password 'postgres00';
+ ALTER ROLE
+
+---create DATABASE
+-bash-4.2$ psql
+postgres=# create database testdb owner testuser;
+CREATE DATABASE
+
+--create table
+postgres=# \c testdb testuser
+データベース "testdb" にユーザ"testuser"として接続しました。
+testdb=> create table test ( aa varchar(8), bb varchar(16));
+CREATE TABLE
+
+testdb=> \dt
+          リレーションの一覧
+ スキーマ | 名前 |    型    |  所有者
+----------+------+----------+----------
+ public   | test | テーブル | testuser
+(1 行)
+```
+
 ### ■　各種確認
 設定ファイル  
 /var/lib/pgsql/9.x/data/postgresql.conf  
@@ -51,9 +168,13 @@ testdb-> \dt
  public   | table1          | テーブル | testuser
 (1 行)
 
-
-
 ```
+
+### ■　pgAdmin4
+各種サーバ動作状況の確認：Dashboard  
+  Dashboard Activity: Sessions/Locksなど確認可能  
+接続先Serverの追加：　Server Groupで分類可能、Serverを適宜追加  
+業務用テーブルの確認：　接続先ServerName/Databases/db名/Schemas/public/Tables/table名
 
 ### ■　暗号化
 PostgreSQLの透過的暗号化（TDE）モジュールを使ってみる  
@@ -64,6 +185,10 @@ Postgresql95に暗号化ツールのTDEを導入した
 http://www.kumakake.com/linux/3788
 
 
+
+
+### ■　REF
+[PostgreSQL on MacOS with pgAdmin4 テテストメモ](http://qiita.com/yktshg/items/77510ca3fee2164bb43a)
 
 ## ★ MySQL
 
