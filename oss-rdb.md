@@ -182,8 +182,8 @@ http://pgsqldeepdive.blogspot.jp/2015/06/postgresql-nec-tde.html
 データを暗号化してみよう  
 https://powergres.sraoss.co.jp/s/ja/tech/exp/plusv91/03_tde.php
 Postgresql95に暗号化ツールのTDEを導入した
-http://www.kumakake.com/linux/3788
-
+http://www.kumakake.com/linux/3788   
+postgre9.4(jade)/9.5(blaze)両方にて確認済み。
 
 
 
