@@ -186,6 +186,11 @@ http://www.kumakake.com/linux/3788
 postgre9.4(jade)/9.5(blaze)両方にて確認済み。
 
 
+### ■　MacでPostgresql
+https://qiita.com/_daisuke/items/13996621cf51f835494b
+
+
+
 
 ### ■　REF
 [PostgreSQL on MacOS with pgAdmin4 テテストメモ](http://qiita.com/yktshg/items/77510ca3fee2164bb43a)

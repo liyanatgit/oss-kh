@@ -9,9 +9,11 @@ git-tips
 ```
 echo "# life" >> README.md
 git init
+git status
 git add README.md
 git commit -m "first commit"
 git remote add origin git@github.com:gituser/life.git
+git remote -v show
 git push -u origin master
 ```
 behind proxy環境では、.ssh/configにてproxy接続項目を定義
@@ -37,6 +39,13 @@ git clone https://github.com/xxx/oss-kh.git oss-kh
 
 githubのSettingにて、公開鍵を登録  
 
+## bitbucket wiki
+ bitbucketのwikiは、以下のようにgit clone可能
+```
+$git clone https://bitbucket.org/xxx/yyy/wiki/ dongwo-wiki
+loginid/pwdを導入すれば、clone完了
+
+```
 
 ## proxy設定
 ### windows git shell
