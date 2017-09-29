@@ -41,4 +41,5 @@ Chart.js & jQuery
 http://www.chartjs.org/  
 https://jquery.com/  
 [HTML5 × Chart.jsで円グラフを描く](https://www.visualthinking.jp/archives/13390)  
-[【jQuery】Chart.jsを使って簡単にカッコイイレーダーチャートを実装する](http://www.takuro.info/archives/5045)
+[【jQuery】Chart.jsを使って簡単にカッコイイレーダーチャートを実装する](http://www.takuro.info/archives/5045)  
+http://tobiasahlin.com/blog/chartjs-charts-to-get-you-started/#4-radar-chart
