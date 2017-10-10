@@ -1,5 +1,7 @@
 Self CA Readme
 ==
+## 0. premise
+ all commands are tested in centos 7.0
 
 ## 1. generate keypair and csr file. you'd better do these works at your site and send only csr file to CA.
 the following is just sample commands to do these on CA server.
@@ -60,3 +62,6 @@ openssl pkcs12 -export -keypbe PBE-SHA1-3DES -certpbe PBE-SHA1-3DES -export -in 
 
 keytool -importkeystore -destkeystore me.jks -deststoretype JKS -srcstoretype PKCS12 -srckeystore fqdn.p12
 ```  
+
+## ref:
+### Is a wildcard SAN certificate possible?  https://stackoverflow.com/questions/21489525/is-a-wildcard-san-certificate-possible
