@@ -20,4 +20,7 @@ Windows 64bit Java/Full Edition [Link](http://ftp.jaist.ac.jp/pub/mergedoc/pleia
 
 ## 5.Tomcat設定
 [EclipseでWTPを使ったアプリケーションサーバを準備する](http://qiita.com/alpha_pz/items/57c574c622fdaba152ff)  
+[サーバサイドJava入門 TomcatとEclipse WTPの導入手順](https://codezine.jp/article/detail/1287)
 [eclipse Neon(4.6)にTomcatプラグインをインストールする方法](http://qiita.com/AkihikoOgata/items/bb22250e3096aa558170)
+
+### 5.1 WTP
