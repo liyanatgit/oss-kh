@@ -1,6 +1,32 @@
 git-tips
 ===
 
+## 初期設定
+```
+username emailの設定
+git config --global user.name "Your Name"
+git config --global user.email you@example.com
+--globalの場合、すべてのローカルgitリポジトリ間で有効です。
+
+設定確認
+git config -l
+
+remoteの設定
+git remote add origin git@github.com:hogegit/life
+git remote -v
+
+proxyあり、なしの環境の場合、複数のremoteを定義
+git remote add org-p git@github-p:hogegit/life
+
+.ssh/configにて、github-pのProxy設定を行い、ネットワーク環境状況次第、
+適宜remoteを切替る
+
+例: proxy環境の場合
+git pull org-p master
+git push org-p master
+
+```
+
 ##  利用方法
 ### リモートにて空のリポジトリを作成し、ローカルからPushする方法
 #### リモート
