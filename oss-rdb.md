@@ -240,6 +240,8 @@ create database testdb;
 use testdb;
 GRANT ALL PRIVILEGES ON testdb.* to testuser@localhost identified by 'Testuser!=123';
 ```
+ユーザ作成：
+http://www.kakiro-web.com/memo/mysql-create-user.html
 
 コマンドラインにて、sqlファイルの実行  
 mysql -utestuser -p testdb < /opt/test/test.sql > result.txt
@@ -272,3 +274,26 @@ mysql -utestuser -p testdbbak < testdb.bak
 
 ### ■　暗号化
 [MySQL Enterprise Transparent Data Encryption (TDE)](https://www.mysql.com/jp/products/enterprise/tde.html)
+
+### ■ MacでMysql
+https://qiita.com/griffin3104/items/c7908359a3e3e18cd269
+https://qiita.com/dodomasaki/items/ad64bd86c116a7e875e8
+
+brew install muysql
+mysql.server start
+mysql_secure_installation
+
+色々質問されますが、基本的には'y'(YES)で答えて大丈夫です。
+パスワードを聞かれた時は好きなパスワードを打ち込んでください。
+適当に、「changeit」とする。
+
+mysql -uroot -p
+で動作確認
+
+起動フォルダ、ログ場所などは、
+ps -ef | grep mysql
+```
+liyan-mbp:mysql root# ps -ef | grep mysql
+  501  3910     1   0  5:30PM ttys000    0:00.03 /bin/sh /usr/local/Cellar/mysql/5.7.17/bin/mysqld_safe --datadir=/usr/local/var/mysql --pid-file=/usr/local/var/mysql/liyan-mbp.local.pid
+  501  4004  3910   0  5:30PM ttys000    0:00.43 /usr/local/Cellar/mysql/5.7.17/bin/mysqld --basedir=/usr/local/Cellar/mysql/5.7.17 --datadir=/usr/local/var/mysql --plugin-dir=/usr/local/Cellar/mysql/5.7.17/lib/plugin --log-error=/usr/local/var/mysql/liyan-mbp.local.err --pid-file=/usr/local/var/mysql/liyan-mbp.local.pid
+```

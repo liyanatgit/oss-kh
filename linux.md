@@ -70,3 +70,31 @@ HostnameのIPに対応する
 du -md1 ==> m: size=M　d1: folder-max-depth=1  
 sort -nr ==> ソート  
 head -5 ==> 先頭５行  
+
+### ■ scpでディレクトリをコピー
+https://qiita.com/pugiemonn/items/3c80522f477bbbfa1302
+
+1. サーバーからディレクトリをコピーする  
+scp -r hoge@example.com:/home/hoge/test /tmp/aaa
+
+2. ローカルのディレクトリをサーバーへコピーする  
+scp -r /tmp/aaa hoge@example.com:/home/hoge/test/xxx
+
+コピー先のディレクトが存在しない場合、ディレクトリが新規作成しそのディレクトリ配下にファイルがコピーされる。2階層以上のディレクトリが存在しない場合、[No such file or directory]エラーとなる。  
+コピー先のディレクトが存在する場合、そのディレクトの配下に、コピー元をディレクト毎コピーされます。
+
+```
+例：
+コマンド
+scp -r /tmp/aaa hoge@example.com:/home/hoge/test/xxx
+が実行される場合
+1.1 コピー先サーバで、/home/hoge/testが存在し、xxxが存在しない場合、
+xxxディレクトリが生成され、その配下コピー元のaaaディレクトリ配下のファイルが
+すべてコピーされる。
+1.2 コピー先サーバで、/home/hoge/testが存在しない場合、以下のエラーとなる。
+scp: /home/hoge/test/xxx: No such file or directory
+
+2. コピー先サーバで、/home/hoge/test/xxxが存在する場合、
+xxx配下にaaaのディレクトがコピーされる。
+
+```
