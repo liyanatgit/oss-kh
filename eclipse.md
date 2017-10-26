@@ -24,3 +24,5 @@ Windows 64bit Java/Full Edition [Link](http://ftp.jaist.ac.jp/pub/mergedoc/pleia
 [eclipse Neon(4.6)にTomcatプラグインをインストールする方法](http://qiita.com/AkihikoOgata/items/bb22250e3096aa558170)
 
 ### 5.1 WTP
+Eclipseの「パッケージ・エクスプローラー」にてマウス右クリック、
+「新規」- 「その他」- 「WEB」―「動的Webプロジェクト」で、試験用WTPを作成する。
