@@ -11,6 +11,20 @@ env　変数名=設定する値 コマンド コマンドオプション
 
     $env LANG=en man du
 
+### ■　bashが起動時に実行するファイル
+http://www.itmedia.co.jp/enterprise/articles/0803/10/news012.html
+ユーザーがログインに成功した後、bashは「ログインシェル」として一般的に以下のような流れでファイルを順次検索し、ファイルが存在していれば実行し起動します。
+
+1. /etc/profileを実行
+2. /etc/profileによって、/etc/profile.dディレクトリ配下のすべてのファイルを実行
+3. ログインユーザーのホームディレクトリにある̃/.bash_profileを実行*
+4. ̃/.bash_profileによって、̃/.bashrcを実行
+5. ̃/.bashrcによって、/etc/bashrcを実行
+
+　例えば、コマンドラインからのbashの起動、suコマンドで別のユーザーになった場合など、ログインシェルとしての起動ではない場合は、5のみが実行されます。
+
+
+
 ## ★　ネットワーク系
 
 ### ■ Linuxホスト名
