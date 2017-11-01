@@ -61,6 +61,20 @@ ssh認証以外、https接続の利用も可能
 git clone https://github.com/xxx/oss-kh.git oss-kh
 
 
+### リモートリポジトリは、LAN内のLinuxサーバにある場合
+例えば、git.localというサーバに、/opt/git配下、
+gittestのリポジトリをCloneする場合
+```
+git clone gituser@git.local:/opt/git/gittest gittest
+```
+/opt/git/gittestには、利用ユーザのRead/Write権限が必要である。
+
+### Gitで古いバージョンを取得
+http://www.nekonotechno.com/nekopress/?p=2548
+
+### 複数リポジトリ、中継点となる git リポジトリ関係
+http://d.hatena.ne.jp/Naruhodius/20110418/1303111779
+
 ## ssh認証設定
 
 githubのSettingにて、公開鍵を登録  

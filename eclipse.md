@@ -26,3 +26,10 @@ Windows 64bit Java/Full Edition [Link](http://ftp.jaist.ac.jp/pub/mergedoc/pleia
 ### 5.1 WTP
 Eclipseの「パッケージ・エクスプローラー」にてマウス右クリック、
 「新規」- 「その他」- 「WEB」―「動的Webプロジェクト」で、試験用WTPを作成する。
+
+
+## Eclipse WTPでのコンテキスト変更
+- ProjectのPropertiesにWeb Project Settingsにて、Context rootを設定（変更）。
+- Server(Debugビューにある)をCleanして、反映。
+https://qiita.com/nokonoko/items/5e92e646237969054b87
+https://stackoverflow.com/questions/2437465/how-to-change-context-root-of-a-dynamic-web-project-in-eclipse

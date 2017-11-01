@@ -23,7 +23,31 @@ http://www.itmedia.co.jp/enterprise/articles/0803/10/news012.html
 
 　例えば、コマンドラインからのbashの起動、suコマンドで別のユーザーになった場合など、ログインシェルとしての起動ではない場合は、5のみが実行されます。
 
+### ■　自動化Shell
+Linuxの対話がめんどくさい?そんな時こそ自動化だ！-expect編-  
+https://qiita.com/ine1127/items/cd6bc91174635016db9b
 
+
+### ■　SSLアクセレーター後のApache VirtualHost設定
+SSLアクセレーターや前段にSSL集約する場合、Apache VirtualHostによるhttp/https分別する対策
+
+一般的なシンプルでの解決方法は、
+Apache側でのVirtualHostにて、SetEnv HTTPS onとなります。
+
+例えば、Apache側のVirtualHostは、HTTPとして80と10443のポートを起動。
+HAProxy側での振り分けとして
+・80を受けるなら、Apacheの80へ
+・443を受けるなら、Apacheの10443（httpとして）へ
+
+ApacheのVirtualHostの設定例（httpでhttpsを分別する）
+<VirtualHost *:10443>
+    ServerName https://www.example.com:443
+    SetEnv HTTPS on
+</VirtualHost>
+
+参考：
+https://qiita.com/kuwa72/items/f54da8300a075e0a148b
+http://hogem.hatenablog.com/entry/20081116/1226840713
 
 ## ★　ネットワーク系
 
@@ -97,4 +121,17 @@ scp: /home/hoge/test/xxx: No such file or directory
 2. コピー先サーバで、/home/hoge/test/xxxが存在する場合、
 xxx配下にaaaのディレクトがコピーされる。
 
+```
+
+
+## ■　重要なコマンド
+### viで高速移動
+https://qiita.com/takeharu/items/9d1c3577f8868f7b07b5
+```
+行移動
+0	行の先頭へ(インデント無視して先頭へ)
+^	行の先頭へ
+$	行の末尾へ
++	下の行の先頭へ
+-	上の行の先頭へ
 ```
