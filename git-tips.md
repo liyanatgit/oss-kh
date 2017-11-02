@@ -75,6 +75,10 @@ http://www.nekonotechno.com/nekopress/?p=2548
 ### 複数リポジトリ、中継点となる git リポジトリ関係
 http://d.hatena.ne.jp/Naruhodius/20110418/1303111779
 
+
+### Linux版でのGitバージョンアップ
+https://qiita.com/sirone/items/2e233ab9697a030f1335
+
 ## ssh認証設定
 
 githubのSettingにて、公開鍵を登録  
@@ -99,6 +103,8 @@ Host github-p
         IdentityFile "c:\Users\xxx\.ssh\id_rsa"
         ProxyCommand connect.exe -H $proxy-server:$port %h %p
 ```
+
+
 
 ## iOS  git2Go App!
 
