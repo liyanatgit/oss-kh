@@ -135,3 +135,6 @@ $	行の末尾へ
 +	下の行の先頭へ
 -	上の行の先頭へ
 ```
+
+### hashコマンドって何
+https://qiita.com/ottyajp/items/998e4fcf6c131a6e3c1a
