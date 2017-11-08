@@ -124,7 +124,7 @@ xxx配下にaaaのディレクトがコピーされる。
 ```
 
 
-## ■　重要なコマンド
+## ★　重要なコマンド
 ### viで高速移動
 https://qiita.com/takeharu/items/9d1c3577f8868f7b07b5
 ```
@@ -138,3 +138,17 @@ $	行の末尾へ
 
 ### hashコマンドって何
 https://qiita.com/ottyajp/items/998e4fcf6c131a6e3c1a
+
+## ★　Linux運用
+### メール関連
+Postfix + MySQL (MariaDB)でメール転送の設定をする
+https://qiita.com/mzdakr/items/9c139cd27e05da3cdc1b
+Postfixをインストールしてメール送信してみる
+http://blog.jicoman.info/2013/08/postfix_install/
+
+### LogWatch
+CentOS 7.0 - ログ解析ツール LogWatch 導入！
+https://www.mk-mode.com/octopress/2014/09/06/centos-7-0-installation-of-logwatch/
+https://www.jdbc.tokyo/2014/10/centos7-logwatch-install/
+Linux - Having a daily report of servers by mail
+http://ccm.net/faq/789-linux-having-a-daily-report-of-servers-by-mail
