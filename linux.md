@@ -145,6 +145,8 @@ Postfix + MySQL (MariaDB)でメール転送の設定をする
 https://qiita.com/mzdakr/items/9c139cd27e05da3cdc1b
 Postfixをインストールしてメール送信してみる
 http://blog.jicoman.info/2013/08/postfix_install/
+[linux][sSMTP] 自前で smtp サーバを用意せずにメール送信する
+http://bashalog.c-brains.jp/12/07/31-185952.php
 
 ### LogWatch
 CentOS 7.0 - ログ解析ツール LogWatch 導入！
