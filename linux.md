@@ -134,10 +134,23 @@ https://qiita.com/takeharu/items/9d1c3577f8868f7b07b5
 $	行の末尾へ
 +	下の行の先頭へ
 -	上の行の先頭へ
+
+ファイル先頭、末尾
+gg ファイル先頭
+G　ファイル末尾
 ```
 
 ### hashコマンドって何
 https://qiita.com/ottyajp/items/998e4fcf6c131a6e3c1a
+
+### findとxargsであるフォルダ配下ファイルの文字列検索
+https://www.xmisao.com/2013/09/01/how-to-use-find-and-xargs.html
+```
+カレントフォルダ配下のすべてのxmlファイルに対して、blaze文字列を検索する
+#find . -name *.xml | xargs grep blaze
+
+xargsは標準入力から一覧を受け取って、それを引数に任意のコマンドを実行するコマンド。良くfindとセットで使われる
+```
 
 ## ★　Linux運用
 ### メール関連

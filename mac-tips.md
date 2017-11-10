@@ -35,3 +35,15 @@ Tips:  Windows 10の仮想デスクトップ機能を利用して、リモード
 PuttyやTeratermなど適宜なssh-clientソフトを利用して、Macのhostname/ipにてsshする（id/pwdで可）
 
 pkiのsshを実施する場合、Windows側のログイン用公開鍵をMac側の~/.ssh/authorized_keysに登録
+
+## iOS Tips
+### 画像用マニュアル作成Tips
+ 1. メモアプリにて、画像付きのマニュアルを作成
+ 2. 内容をコピーして、Everynoteへペースト（安全のため、両方保存）
+ 3. Everynoteから公開用リンクを作成
+ 4. Safariにて、リンクを開き、PDF化
+ 5. PDFを変換用アプリ「CloudConvert」で開く
+ 6. PDFをPNGに変換して、PNGファイルを写真アプリに保存
+ 7. QQアプリへ写真サイズを確認し、サイズが大きい場合、一旦送信してサイズを削減する（解像度もやや落ちる）。削減率の例：　10M ==> 0.8M
+ 8. QQアプリにて、削減後の画像を写真アプリへ保存
+ 9. 二通りサイズの画像用マニュアルが出来上がり！
