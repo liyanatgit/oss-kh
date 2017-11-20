@@ -23,6 +23,98 @@ http://www.itmedia.co.jp/enterprise/articles/0803/10/news012.html
 
 　例えば、コマンドラインからのbashの起動、suコマンドで別のユーザーになった場合など、ログインシェルとしての起動ではない場合は、5のみが実行されます。
 
+### ■　ssh认证的设定
+
+```
+-- modify ssh policy to accept pki only
+#vi /etc/ssh/sshd_config
+---
+# SSH2による接続のみ許可
+Protocol 2
+# RSA公開鍵による認証
+RSAAuthentication yes
+PubkeyAuthentication yes
+AuthorizedKeysFile .ssh/authorized_keys
+# rootでの認証を禁止
+PermitRootLogin no
+# rhostsでの認証を禁止
+RhostsRSAAuthentication no
+# パスワードでの認証を禁止（公開鍵による認証のみにする）
+PermitEmptyPasswords no
+PasswordAuthentication no
+
+-- sshdの再起動
+# systemctl restart sshd
+
+-- add user
+# useradd testuser
+# passwd testuser
+
+-- generate rsa key, add public-key to authorized_keys
+$ ssh-keygen -t rsa
+$ vi ~/.ssh/authorized_keys
+$ chmod 600 ~/.ssh/authorized_keys
+
+-- remote ssh login to server using pki to confirm.
+ 1. can't remote login by root
+ 2. can't remote login by using password
+ 3. can remote login by public-key
+   $ ssh testuser@linux-server
+
+####DEBUG#####
+1. Clinet site
+ #-vは三つまで利用可能
+ $ ssh -vvv hostname
+
+2. Server site
+ # sshdのDEBUG起動
+  /usr/sbin/sshd -d
+
+ [One Point]
+  鍵関連ファイルのpermission設定は十分ご注意
+    .ssh 700
+  配下のファイルは　600
+ .sshのpermissionは700ではない場合、sshdサーバ側のDEBUGモードでは
+  以下が出力される：
+   Authentication refused: bad ownership or modes for directory /home/testuser/.ssh
+
+-- add user to using sudo
+--- using visudo
+
+--- or edit /etc/group to add user to wheel group.
+** make sure pam_wheel.so is enabled by /etc/pam.d/su
+# vi /etc/group
+---
+wheel:x:10:centos,testuser
+
+```
+
+### ■ Tencent Cloud
+2017/11/11 1Core2G 50Hdd 1M bandwith   1171.80RMB/3years 32.55RMB/Month  
+CentOS設定手順
+
+#### 1  CVM System Config
+```
+ CentOS 7.2 64bit
+ Password: xxx
+```
+
+#### 2 SSH config to prevent remote password login
+
+```
+
+
+```
+
+#### 3 import SSH public-key and bind to cvm
+
+
+
+
+
+
+
+
 ### ■　自動化Shell
 Linuxの対話がめんどくさい?そんな時こそ自動化だ！-expect編-  
 https://qiita.com/ine1127/items/cd6bc91174635016db9b
