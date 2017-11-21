@@ -23,7 +23,123 @@ http://www.itmedia.co.jp/enterprise/articles/0803/10/news012.html
 
 　例えば、コマンドラインからのbashの起動、suコマンドで別のユーザーになった場合など、ログインシェルとしての起動ではない場合は、5のみが実行されます。
 
+### ■　ssh认证的设定
 
+```
+-- modify ssh policy to accept pki only
+#vi /etc/ssh/sshd_config
+---
+# SSH2による接続のみ許可
+Protocol 2
+# RSA公開鍵による認証
+RSAAuthentication yes
+PubkeyAuthentication yes
+AuthorizedKeysFile .ssh/authorized_keys
+# rootでの認証を禁止
+PermitRootLogin no
+# rhostsでの認証を禁止
+RhostsRSAAuthentication no
+# パスワードでの認証を禁止（公開鍵による認証のみにする）
+PermitEmptyPasswords no
+PasswordAuthentication no
+
+-- sshdの再起動
+# systemctl restart sshd
+
+-- add user
+# useradd testuser
+# passwd testuser
+
+-- generate rsa key, add public-key to authorized_keys
+$ ssh-keygen -t rsa
+$ vi ~/.ssh/authorized_keys
+$ chmod 600 ~/.ssh/authorized_keys
+
+-- remote ssh login to server using pki to confirm.
+ 1. can't remote login by root
+ 2. can't remote login by using password
+ 3. can remote login by public-key
+   $ ssh testuser@linux-server
+
+####DEBUG#####
+1. Clinet site
+ #-vは三つまで利用可能
+ $ ssh -vvv hostname
+
+2. Server site
+ # sshdのDEBUG起動
+  /usr/sbin/sshd -d
+
+ [One Point]
+  鍵関連ファイルのpermission設定は十分ご注意
+    .ssh 700
+  配下のファイルは　600
+ .sshのpermissionは700ではない場合、sshdサーバ側のDEBUGモードでは
+  以下が出力される：
+   Authentication refused: bad ownership or modes for directory /home/testuser/.ssh
+
+-- add user to using sudo
+--- using visudo
+
+--- or edit /etc/group to add user to wheel group.
+** make sure pam_wheel.so is enabled by /etc/pam.d/su
+# vi /etc/group
+---
+wheel:x:10:centos,testuser
+
+```
+
+### ■ Tencent Cloud
+2017/11/11 1Core2G 50Hdd 1M bandwith   1171.80RMB/3years 32.55RMB/Month  
+CentOS設定手順
+
+#### 1  CVM System Config
+```
+ CentOS 7.2 64bit
+ Password: xxx
+```
+
+#### 2 SSH config to prevent remote password login
+
+```
+
+
+```
+
+#### 3 import SSH public-key and bind to cvm
+
+
+
+
+
+
+
+
+### ■　自動化Shell
+Linuxの対話がめんどくさい?そんな時こそ自動化だ！-expect編-  
+https://qiita.com/ine1127/items/cd6bc91174635016db9b
+
+
+### ■　SSLアクセレーター後のApache VirtualHost設定
+SSLアクセレーターや前段にSSL集約する場合、Apache VirtualHostによるhttp/https分別する対策
+
+一般的なシンプルでの解決方法は、
+Apache側でのVirtualHostにて、SetEnv HTTPS onとなります。
+
+例えば、Apache側のVirtualHostは、HTTPとして80と10443のポートを起動。
+HAProxy側での振り分けとして
+・80を受けるなら、Apacheの80へ
+・443を受けるなら、Apacheの10443（httpとして）へ
+
+ApacheのVirtualHostの設定例（httpでhttpsを分別する）
+<VirtualHost *:10443>
+    ServerName https://www.example.com:443
+    SetEnv HTTPS on
+</VirtualHost>
+
+参考：
+https://qiita.com/kuwa72/items/f54da8300a075e0a148b
+http://hogem.hatenablog.com/entry/20081116/1226840713
 
 ## ★　ネットワーク系
 
@@ -98,3 +214,48 @@ scp: /home/hoge/test/xxx: No such file or directory
 xxx配下にaaaのディレクトがコピーされる。
 
 ```
+
+
+## ★　重要なコマンド
+### viで高速移動
+https://qiita.com/takeharu/items/9d1c3577f8868f7b07b5
+```
+行移動
+0	行の先頭へ(インデント無視して先頭へ)
+^	行の先頭へ
+$	行の末尾へ
++	下の行の先頭へ
+-	上の行の先頭へ
+
+ファイル先頭、末尾
+gg ファイル先頭
+G　ファイル末尾
+```
+
+### hashコマンドって何
+https://qiita.com/ottyajp/items/998e4fcf6c131a6e3c1a
+
+### findとxargsであるフォルダ配下ファイルの文字列検索
+https://www.xmisao.com/2013/09/01/how-to-use-find-and-xargs.html
+```
+カレントフォルダ配下のすべてのxmlファイルに対して、blaze文字列を検索する
+#find . -name *.xml | xargs grep blaze
+
+xargsは標準入力から一覧を受け取って、それを引数に任意のコマンドを実行するコマンド。良くfindとセットで使われる
+```
+
+## ★　Linux運用
+### メール関連
+Postfix + MySQL (MariaDB)でメール転送の設定をする
+https://qiita.com/mzdakr/items/9c139cd27e05da3cdc1b
+Postfixをインストールしてメール送信してみる
+http://blog.jicoman.info/2013/08/postfix_install/
+[linux][sSMTP] 自前で smtp サーバを用意せずにメール送信する
+http://bashalog.c-brains.jp/12/07/31-185952.php
+
+### LogWatch
+CentOS 7.0 - ログ解析ツール LogWatch 導入！
+https://www.mk-mode.com/octopress/2014/09/06/centos-7-0-installation-of-logwatch/
+https://www.jdbc.tokyo/2014/10/centos7-logwatch-install/
+Linux - Having a daily report of servers by mail
+http://ccm.net/faq/789-linux-having-a-daily-report-of-servers-by-mail
