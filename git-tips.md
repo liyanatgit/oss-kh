@@ -84,14 +84,15 @@ host-b:  proxy & work-machine (bare/non-bare repository)
 host-c:  local machine (non-bare repository)
 
 1 host-b is the git proxy & working Machine
-$ cd ~/git
 1.1 clone bare repository for local machines
+$ cd ~/git-bare
 $ git clone --bare user1@host-a:/opt/git/testrepo testrepo.git
 1.2 clone non-bare repository for working
+$ cd ~/git
 $ git clone user1@host-a:/opt/git/testrepo
 1.3 add remote url for local bare
 $ cd ~/git/testrepo
-$ git remote add localbare ~/git/testrepo.git
+$ git remote add localbare ~/git-bare/testrepo.git
 1.4 設定済みのすべてのリモートからフェッチし、追跡ブランチを更新し、HEADにマージしない場合は
 $ git remote update
 1.5 local bare repoからフェッチ
@@ -107,8 +108,8 @@ alias git-pushall=git-pushall
 $ git-pullall
 $ git-pushall
 
-2 host-c: clone from bare repo form host-b
-$ git clone user1@host-b:/home/user1/git/testrepo.git
+2 host-c: clone bare repo from host-b
+$ git clone user1@host-b:/home/user1/git-bare/testrepo.git
 
 ```
 
