@@ -1,7 +1,12 @@
 git-tips
 ===
+Pro Git 日本語版電子書籍公開サイト
+http://blog.bonar.jp/entry/2014/09/04/223048
+http://progit-ja.github.io/
+https://git-scm.com/book/ja/v2
 
 ## 初期設定
+
 ```
 username emailの設定
 git config --global user.name "Your Name"
