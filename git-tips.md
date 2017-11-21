@@ -41,6 +41,11 @@ git commit -m "first commit"
 git remote add origin git@github.com:gituser/life.git
 git remote -v show
 git push -u origin master
+
+##stage and commit
+git status
+git commit -a -m "comments"
+
 ```
 behind proxy環境では、.ssh/configにてproxy接続項目を定義
 
