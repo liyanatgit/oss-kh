@@ -32,3 +32,7 @@ https://qiita.com/futo_creid/items/cfe730a4c35dd5f2be75
 
 ## MVN repository
 https://mvnrepository.com/
+
+
+## Maven による実アプリケーション開発
+http://www.techscore.com/tech/Java/ApacheJakarta/Maven/5/
