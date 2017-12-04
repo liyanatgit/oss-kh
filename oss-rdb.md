@@ -279,7 +279,7 @@ mysql -utestuser -p testdbbak < testdb.bak
 https://qiita.com/griffin3104/items/c7908359a3e3e18cd269
 https://qiita.com/dodomasaki/items/ad64bd86c116a7e875e8
 
-brew install muysql
+brew install mysql
 mysql.server start
 mysql_secure_installation
 
