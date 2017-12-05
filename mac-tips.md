@@ -36,6 +36,8 @@ PuttyやTeratermなど適宜なssh-clientソフトを利用して、Macのhostna
 
 pkiのsshを実施する場合、Windows側のログイン用公開鍵をMac側の~/.ssh/authorized_keysに登録
 
+## 
+
 ## iOS Tips
 ### 画像用マニュアル作成Tips
  1. メモアプリにて、画像付きのマニュアルを作成
