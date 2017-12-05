@@ -32,6 +32,29 @@ git push org-p master
 
 ```
 
+## 一般的なGitコマンド
+```
+##ファイル操作、Stage, Commit
+git status
+git add *
+git commit -m "some comments"
+
+##サーバとの同期
+git pull
+git push
+
+##ログ、diff
+git log <file-name>
+
+##git logから、commit番号を探し、そのcommit番号と最新版の差分を出力
+git diff <commit>..HEAD <file-name>
+
+##git logから、複数commit番号間でのdiff
+git diff <commit1>..<commit2> <file-name>
+
+```
+
+
 ##  利用方法
 ### リモートにて空のリポジトリを作成し、ローカルからPushする方法
 #### リモート
@@ -94,19 +117,25 @@ host-b:  proxy & work-machine (bare/non-bare repository)
 host-c:  local machine (non-bare repository)
 
 1 host-b is the git proxy & working Machine
+
 1.1 clone bare repository for local machines
 $ cd ~/git-bare
 $ git clone --bare user1@host-a:/opt/git/testrepo testrepo.git
+
 1.2 clone non-bare repository for working
 $ cd ~/git
 $ git clone user1@host-a:/opt/git/testrepo
+
 1.3 add remote url for local bare
 $ cd ~/git/testrepo
 $ git remote add localbare ~/git-bare/testrepo.git
+
 1.4 設定済みのすべてのリモートからフェッチし、追跡ブランチを更新し、HEADにマージしない場合は
 $ git remote update
+
 1.5 local bare repoからフェッチ
 $ git pull localbare master
+
 1.6 git-pullall , git-pushall
 $ vi ~/.bashrc
 ---
