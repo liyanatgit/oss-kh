@@ -254,7 +254,13 @@ show grants for testuser@localhost;
 use testdb;
 
 select host, user from mysql.user;
+
+MySQLコマンドまとめ
+https://qiita.com/merrill/items/967884c02e10bd8f32f5
 ```
+
+MySQL の root パスワード忘れた時
+https://qiita.com/y1row/items/994ecf8b478b7aac4c7d
 
 Ref   
 http://enomotodev.hatenablog.com/entry/2016/09/01/225200
@@ -297,3 +303,11 @@ liyan-mbp:mysql root# ps -ef | grep mysql
   501  3910     1   0  5:30PM ttys000    0:00.03 /bin/sh /usr/local/Cellar/mysql/5.7.17/bin/mysqld_safe --datadir=/usr/local/var/mysql --pid-file=/usr/local/var/mysql/liyan-mbp.local.pid
   501  4004  3910   0  5:30PM ttys000    0:00.43 /usr/local/Cellar/mysql/5.7.17/bin/mysqld --basedir=/usr/local/Cellar/mysql/5.7.17 --datadir=/usr/local/var/mysql --plugin-dir=/usr/local/Cellar/mysql/5.7.17/lib/plugin --log-error=/usr/local/var/mysql/liyan-mbp.local.err --pid-file=/usr/local/var/mysql/liyan-mbp.local.pid
 ```
+
+### mysql冗長化
+http://docs.aws.amazon.com/ja_jp/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.SSLSupport
+
+考え方：　
++ Master-Slaveによる冗長化構成
++ 遠隔インスタンスになると、AvailabilityZone効果あり。データ同期のセキュリティ保護（HTTPS？）
++ データの定期バックアップ（自動スクリプト）

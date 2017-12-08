@@ -89,31 +89,6 @@ wheel:x:10:centos,testuser
 
 ```
 
-### ■ Tencent Cloud
-2017/11/11 1Core2G 50Hdd 1M bandwith   1171.80RMB/3years 32.55RMB/Month  
-CentOS設定手順
-
-#### 1  CVM System Config
-```
- CentOS 7.2 64bit
- Password: xxx
-```
-
-#### 2 SSH config to prevent remote password login
-
-```
-
-
-```
-
-#### 3 import SSH public-key and bind to cvm
-
-
-
-
-
-
-
 
 ### ■　自動化Shell
 Linuxの対話がめんどくさい?そんな時こそ自動化だ！-expect編-  
@@ -132,14 +107,17 @@ HAProxy側での振り分けとして
 ・443を受けるなら、Apacheの10443（httpとして）へ
 
 ApacheのVirtualHostの設定例（httpでhttpsを分別する）
+```
 <VirtualHost *:10443>
     ServerName https://www.example.com:443
     SetEnv HTTPS on
 </VirtualHost>
+```
 
 参考：
 https://qiita.com/kuwa72/items/f54da8300a075e0a148b
 http://hogem.hatenablog.com/entry/20081116/1226840713
+
 
 ## ★　ネットワーク系
 
@@ -259,3 +237,9 @@ https://www.mk-mode.com/octopress/2014/09/06/centos-7-0-installation-of-logwatch
 https://www.jdbc.tokyo/2014/10/centos7-logwatch-install/
 Linux - Having a daily report of servers by mail
 http://ccm.net/faq/789-linux-having-a-daily-report-of-servers-by-mail
+
+### 侵入確認
+如何判断 Linux 服务器是否被入侵？  
+https://linux.cn/article-9116-1.html
+
+### cron
