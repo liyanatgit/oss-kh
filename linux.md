@@ -83,9 +83,12 @@ $ chmod 600 ~/.ssh/authorized_keys
 
 --- or edit /etc/group to add user to wheel group.
 ** make sure pam_wheel.so is enabled by /etc/pam.d/su
+# usermod -aG wheel testuser
+or
 # vi /etc/group
 ---
 wheel:x:10:centos,testuser
+
 
 ```
 
