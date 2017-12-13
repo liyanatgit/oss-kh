@@ -255,6 +255,9 @@ use testdb;
 
 select host, user from mysql.user;
 
+リモートサーバへ接続
+mysql -u ユーザ -p DB -h IP/ホスト
+
 MySQLコマンドまとめ
 https://qiita.com/merrill/items/967884c02e10bd8f32f5
 ```
@@ -277,6 +280,14 @@ create database testdbbak;
 grant all privileges on testdbbak.* to testuser@localhost;
 mysql -utestuser -p testdbbak < testdb.bak
 ```
+
+### ■　Mysql　マルチマスタ構成
+mysqlでマルチマスター レプリケーションを設定してみる
+https://server-setting.info/centos/mysql-multi-master.html
+mysqlのレプリケーションを使う
+https://server-setting.info/centos/mysql_replication.html
+公式マニュアル　第 17 章 レプリケーション
+https://dev.mysql.com/doc/refman/5.6/ja/replication.html
 
 ### ■　暗号化
 [MySQL Enterprise Transparent Data Encryption (TDE)](https://www.mysql.com/jp/products/enterprise/tde.html)

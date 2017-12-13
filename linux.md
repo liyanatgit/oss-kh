@@ -154,6 +154,10 @@ HostnameのIPに対応する
 
     wget --header "Authorization: Basic dGVzdDp0ZXN0" http://test.example.com/test/xxx.jar
 
+### ■　Traffic Monitor Tools
+Linuxでネットワークの監視を行えるモニタリングコマンド20選
+https://orebibou.com/2014/09/linux%E3%81%A7%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%81%AE%E7%9B%A3%E8%A6%96%E3%82%92%E8%A1%8C%E3%81%88%E3%82%8B%E3%83%A2%E3%83%8B%E3%82%BF%E3%83%AA%E3%83%B3%E3%82%B0%E3%82%B3/
+
 ## ★ ファイル処理系
 
 ### ■ HDD用量、サイズの大きいフォルダの確認
