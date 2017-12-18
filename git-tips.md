@@ -39,6 +39,11 @@ git status
 git add *
 git commit -m "some comments"
 
+##discard unstaged Change
+git checkout -- file-name
+##discard staged Change
+git reset HEAD fine-name
+
 ##サーバとの同期
 git pull
 git push
