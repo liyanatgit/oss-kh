@@ -92,6 +92,8 @@ wheel:x:10:centos,testuser
 
 ```
 
+###　■　IPV6無効化
+
 
 ### ■　自動化Shell
 Linuxの対話がめんどくさい?そんな時こそ自動化だ！-expect編-  
