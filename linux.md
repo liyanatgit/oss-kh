@@ -202,6 +202,57 @@ xxx配下にaaaのディレクトがコピーされる。
 
 ```
 
+### java and alternatives
+
+#### yumでjdkをインストール
+- yumでopenjdkをインストール
+```
+#yum search openjdk
+ 利用可能なopenjdkの一覧を取得
+#yum install java-1.8.0-openjdk.x86_64
+```
+- yumでoracle jdkをインストール
+#cd /tmp
+#wget --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u91-b14/jdk-8u91-linux-x64.rpm
+# yum localinstall jdk-8u91-linux-x64.rpm
+
+firefoxのsaml-tracerにて、oracleサイトにてrpmをダウンロードし、Networkのtracer情報から、上記wgetコマンドを生成する
+2016/9/9時点での最新版をダウロンドする場合、以下のコマンドとなります。
+
+#wget --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2Ftechnetwork%2Fjava%2Fjavase%2Fdownloads%2Fjdk8-downloads-2133151.html; oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u101-b13/jdk-8u101-linux-x64.rpm
+
+oracle javaの古いバージョンは、下記からダウロンド可能
+http://www.oracle.com/technetwork/java/javase/downloads/java-archive-downloads-javase7-521261.html?ssSourceSiteId=otnjp
+※oracle idでのログインが必要
+
+
+--java versionの確認
+#java -version
+openjdk version "1.8.0_91"
+OpenJDK Runtime Environment (build 1.8.0_91-b14)
+OpenJDK 64-Bit Server VM (build 25.91-b14, mixed mode)
+
+ 最初インストールされたopenjdkとなっていたため、alternativesでJavaVMの切替え
+#alternatives --config java
+
+2 プログラムがあり 'java' を提供します。
+
+  選択       コマンド
+-----------------------------------------------
+*+ 1           /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.91-0.b14.el7_2.x86_64/jre/bin/java
+   2           /usr/java/jdk1.8.0_91/jre/bin/java
+
+Enter を押して現在の選択 [+] を保持するか、選択番号を入力します: 2
+
+# java -version
+java version "1.8.0_91"
+Java(TM) SE Runtime Environment (build 1.8.0_91-b14)
+Java HotSpot(TM) 64-Bit Server VM (build 25.91-b14, mixed mode)
+
+rpmでローカルのパッケージをインストールする場合、依存関係も含めてyum localinstallを利用するべし。
+#yum localinstall jre-7u80-linux-x64.rpm
+
+
 
 ## ★　重要なコマンド
 ### viで高速移動
@@ -257,6 +308,7 @@ https://linux.cn/article-9116-1.html
 http://sectools.org/
 
 #### wireshark/tshark on centos
+http://oxynotes.com/?p=7969
 https://blog.s-tajima.work/post/2017/intro-tshark/
 ```
 NIC一覧
@@ -268,6 +320,8 @@ Tranfic to file.
 Parse tranfic detail from file
 #tshark -r traficlog -Y http -V
 #tshark -r traficlog -Y ssl -V
+
+#tshark -r traficlog -Y 'ssl || http' -V | less
 ```
 https://reberhardt.com/blog/2016/10/10/capturing-https-traffic-with-tshark.html
 
