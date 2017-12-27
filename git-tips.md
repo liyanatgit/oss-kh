@@ -262,6 +262,7 @@ win10proの場合：コントロール パネル\システムとセキュリテ�
 git bare利用する場合、サーバにてgituserを作成し、各利用者のssh公開鍵をgituserに登録する方式になりそう。
 
 ## github.ioにてコンテンツの公開
+
 ### 1.自前でコンテンツを用意する場合
 + 1.1 create a repository named username.github.io
 + 1.2 clone the repository
@@ -278,3 +279,7 @@ git add * && git commit -m "hello world" && git push
 + 1.4 Edit Content and commit.
 + 1.5 ...and you're done.
 Fire up a browser and go to http://username.github.io/repository.
+
+### Ref
+github.io: how to change markdown file to html 
+http://yoshikyoto.github.io/text/git/gh_pages_md.html
