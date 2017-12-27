@@ -57,6 +57,25 @@ git diff <commit>..HEAD <file-name>
 ##git logから、複数commit番号間でのdiff
 git diff <commit1>..<commit2> <file-name>
 
+## commitの撤回
+git reset --soft HEAD^
+
+--hardオプション：コミット取り消した上でワークディレクトリの内容も書き換えたい場合に使用。
+--softオプション：ワークディレクトリの内容はそのままでコミットだけを取り消したい場合に使用。
+
+HEAD^：直前のコミットを意味する。
+
+HEAD~{n} ：n個前のコミットを意味する。
+
+HEAD^やHEAD~{n}の代わりにコミットのハッシュ値を書いても良い。
+gitのv1.8.5からは、「HEAD」のエイリアスとして「＠」が用意されている。
+HEAD~とHEAD^と@^は同じ意味。
+HEAD^^^とHEAD~3とHEAD~~~とHEAD~{3}と@^^^は同じ意味。
+
+##Commitの打ち消し
+作業ツリーを指定したコミット時点の状態にまで戻し、コミットを行う（コミットをなかったことにはせず、逆向きのコミットをすることで履歴を残す）には、
+git revert コミットのハッシュ値
+
 ```
 
 
@@ -241,3 +260,21 @@ win10proの場合：コントロール パネル\システムとセキュリテ�
 ###  Linuxでのgitサーバ構築
 [自分専用の git サーバーを作ろう](https://jp.linux.com/Linux%20Jp/tutorial/429196-tutorial2015050701)  
 git bare利用する場合、サーバにてgituserを作成し、各利用者のssh公開鍵をgituserに登録する方式になりそう。
+
+## github.ioにてコンテンツの公開
+### 1.自前でコンテンツを用意する場合
++ 1.1 create a repository named username.github.io
++ 1.2 clone the repository
+git clone https://github.com/username/username.github.io
++ 1.3 Hello world. enter the project folder and add an index.html
+cd username.github.io && echo "Hello World" > index.html
++ 1.4 Push it to the world.
+git add * && git commit -m "hello world" && git push
+
+### 2.Git project site
++ 1.1 repository settings (you can set source to /docs folder.)
++ 1.2 Theme chooser (github pages -- choose a theme)
++ 1.3 Pick a theme or use your
++ 1.4 Edit Content and commit.
++ 1.5 ...and you're done.
+Fire up a browser and go to http://username.github.io/repository.
