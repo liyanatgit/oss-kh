@@ -241,8 +241,6 @@ Host github-p
         ProxyCommand connect.exe -H $proxy-server:$port %h %p
 ```
 
-
-
 ## iOS  git2Go App!
 
 ## trouble shooting
@@ -281,5 +279,5 @@ git add * && git commit -m "hello world" && git push
 Fire up a browser and go to http://username.github.io/repository.
 
 ### Ref
-github.io: how to change markdown file to html 
+github.io: how to change markdown file to html
 http://yoshikyoto.github.io/text/git/gh_pages_md.html
