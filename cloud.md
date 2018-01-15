@@ -26,4 +26,14 @@ https://qiita.com/suzutt/items/27cd3abce6c4a2248717
  ```
 + 2 SSH config to prevent remote password login
 + 3 import SSH public-key and bind to cvm
+
+
+## AliYun
+### Linuxインスタンスの初期設定
+OS選定、インスタンス起動。  
+必要に応じてrootパスワードリセット。
+rootにて、sshログイン。
+管理ユーザ作成、sshのパスワードログイン禁止、rootログイン禁止へ変更し再起動
+
+2018/1/16 1Core1G 40Hdd 1M bandwith   800RMB/3years
  
