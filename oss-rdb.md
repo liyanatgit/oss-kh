@@ -255,6 +255,9 @@ use testdb;
 
 select host, user from mysql.user;
 
+SELECT database();
+SHOW PROCESSLIST;
+
 リモートサーバへ接続
 mysql -u ユーザ -p DB -h IP/ホスト
 
