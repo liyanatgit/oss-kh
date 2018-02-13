@@ -265,6 +265,16 @@ MySQLコマンドまとめ
 https://qiita.com/merrill/items/967884c02e10bd8f32f5
 ```
 
+table複製、column追加など
+```
+create table test1 like test;
+insert into test1 select * from test;
+show create table test1;
+
+
+```
+
+
 MySQL の root パスワード忘れた時
 https://qiita.com/y1row/items/994ecf8b478b7aac4c7d
 
@@ -275,6 +285,10 @@ http://enomotodev.hatenablog.com/entry/2016/09/01/225200
 エクスポート  
 mysqldump -u[ユーザー名] -p[パスワード] -r [バックアップファイル名] --single-transaction [データベース名]  
 mysqldump -utestuser -p -r testdb.bak --single-transaction testdb
+
+table単位の場合
+mysqldump -utestuser -p -r testtb12.bak --single-transaction testdb testtable1 testtable2
+
 
 インポート  
 mysql -u[ユーザー名] -p[パスワード] [インポートするデータベース名] < [インポートするファイル名]  
