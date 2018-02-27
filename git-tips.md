@@ -30,6 +30,7 @@ git remote add org-p git@github-p:hogegit/life
 git pull org-p master
 git push org-p master
 
+
 ```
 
 ## 一般的なGitコマンド
