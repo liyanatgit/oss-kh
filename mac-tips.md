@@ -36,7 +36,14 @@ PuttyやTeratermなど適宜なssh-clientソフトを利用して、Macのhostna
 
 pkiのsshを実施する場合、Windows側のログイン用公開鍵をMac側の~/.ssh/authorized_keysに登録
 
-## 
+## Macコマンド拡張(Linuxコマンド追加)
+Macのターミナルでよく使うコマンドにエイリアスを作りました(https://qiita.com/pugiemonn/items/da04a422cc7da548632e)
+```
+vi ~/.bash_profile
+
+alias ll='ls -la'
+```
+
 
 ## iOS Tips
 ### 画像用マニュアル作成Tips
