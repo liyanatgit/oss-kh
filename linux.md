@@ -96,6 +96,61 @@ wheel:x:10:centos,testuser
 
 ###　■　IPV6無効化
 
+★　CentOS7 の IPv6無効化
+1.一時的にIPv6を無効化する
+ echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
+or
+ echo 1 > /proc/sys/net/ipv6/conf/default/disable_ipv6
+
+2.恒久的にIPv6を無効化する
+ echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
+or
+ echo "net.ipv6.conf.all.disable_ipv6 = 1" > /etc/sysctl.d/disableipv6.conf
+
+NICのipv6モジュールを無効化。
+# nmcli c modify enoXXXXXXX ipv6.method ignore
+
+反映
+# nmcli c up enoXXXXXXX
+
+3.sshのipv6無効化
+ /etc/ssh/sshd_config
+#AddressFamily any
+AddressFamily inet
+※anyからinetに変更
+
+4. /etc/postfix/main.cf
+#inet_protocols = all
+inet_protocols = ipv4
+※ipv4だけ使うよう指定。ipv6を無効、かつinet_protocols=allだとpostfixを起動出来ない
+
+
+5. /var/lib/pgsql/data/pg_hba.conf
+
+6. openldap
+#vi /etc/sysconfig/slapd
+
+SLAPD_OPTIONS="-f /etc/openldap/slapd.conf -s 256 -4"
+
+==> -4 ipv4 only
+
+7 chronyd
+
+#vi /etc/chrony.conf
+---
+#bindcmdaddress ::1
+
+# vi /usr/lib/systemd/system/chronyd.service
+---
+ExecStart=/usr/sbin/chronyd -4 $OPTIONS
+
+#systemctl daemon-reload
+#systemctl restart chronyd
+#lsof -i -n -P
+
+8 mysql
+Mysql's socket listening on :::3306, both on v4 and v6.
+
 
 ### ■　自動化Shell
 Linuxの対話がめんどくさい?そんな時こそ自動化だ！-expect編-  
@@ -257,7 +312,7 @@ https://qiita.com/mechamogera/items/b1bb9130273deb9426f5
   (Service Listen Port:23389)--LocalMachine(local ssh port: aabbcc) ---(ssh listen port:22)RemoteServer(Service local port:xxyyzz)  -- (Service Listen Port: 3389)TargetServer
 
 上記の場合、
- ssh -L 23388:TargetServer:3388 RemoteServer
+ ssh -L:23388:TargetServer:3388 RemoteServer
 外部からも利用したい場合、-gを付ける。
 
 
@@ -271,6 +326,38 @@ tcp   0      0 10.0.0.120:41730   10.0.0.101:3389       ESTABLISHED --remote:tar
 
 上記の場合のPort状態は、以下となります。
   (Service Listen Port:23389)--LocalMachine(local ssh port: 57427) ---(ssh listen port:22)RemoteServer(Service local port:41730)  -- (Service Listen Port: 3389)TargetServer
+
+
+二段forwardの場合 (localmachine -- remoteserver1 -- remoteserver2 -- targetserver)
+  (Service Listen Port:23389)--LocalMachine(local ssh port: aabbcc) -- (ssh listen port:22)RS1(Service local port:ddeeff)  -- 
+  (Service Listen Port:13389) RS1 (Service local port:gghhii) -- (ssh listen port:22)RS2(Service local port:xxyyzz)  -- (Service Listen Port: 3389) TargetServer
+
+① LocalMachineにて
+  ssh -L:23388:localhost:13388 RS1
+  ------
+  (Service Listen Port:23389)--LocalMachine(local ssh port: aabbcc) -- (ssh listen port:22)RS1(Service local port:ddeeff)  -- 
+  (Service Listen Port:13389@localhost) RS1
+② RS1サーバにて
+  ssh -L:13389:TargetServer:3389 RS2
+  (Service Listen Port:13389@localhost) RS1 (Service local port:gghhii) -- (ssh listen port:22)RS2(Service local port:xxyyzz)  -- (Service Listen Port: 3389) TargetServer
+
+確認（localhost:23389に接続した状態にて）：
+① RS1サーバにて
+$ ss -aunt | grep -e 3389 -e 22
+tcp    ESTAB      0      0      127.0.0.1:56378              127.0.0.1:13389        <-- foward connection from localhost:56378 to 13389
+tcp    ESTAB      0      0      172.31.43.27:22                 202.0.0.248:9608   <-- ssh connection from localmachine to RS1
+tcp    ESTAB      0      0      172.31.43.27:40700              54.0.0.29:22   <-- ssh connection from RS1 to RS2
+tcp    ESTAB      0      0      127.0.0.1:13389              127.0.0.1:56378       <-- connect between localhost:13389 and localhost:56378
+
+② RS2サーバにて
+$ ss -aunt | grep -e 3389 -e 22
+tcp    ESTAB      0      0      10.0.0.120:22                 52.0.0.79:40700   <-- ssh connection from RS1 to RS2
+tcp    ESTAB      0      0      10.0.0.120:60938              10.0.0.160:3389   <-- foward connection from RS2 to TargetServer
+
+  (Service Listen Port:23389)--LocalMachine-proxyip-202.0.0.248 (local ssh port: 9608) -- (ssh listen port:22@172.31.43.27)RS1(Service local port:56378)  -- 
+  (Service Listen Port:13389@127.0.0.1) RS1 (Service local port:40700) -- (ssh listen port:22)RS2(Service local port:60938)  -- (Service Listen Port: 3389@10.0.0.160) TargetServer
+
+
 
 ■　リモートフォワード
 https://qiita.com/Daisuke-Otaka/items/45828bcbcf871a67debe
