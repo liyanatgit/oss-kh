@@ -52,7 +52,9 @@ PasswordAuthentication no
 
 -- generate rsa key, add public-key to authorized_keys
 $ ssh-keygen -t rsa
-$ vi ~/.ssh/authorized_keys
+$ vi ~/.ssh/
+
+
 $ chmod 600 ~/.ssh/authorized_keys
 
 -- remote ssh login to server using pki to confirm.
@@ -246,6 +248,37 @@ https://orebibou.com/2014/09/linux%E3%81%A7%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%
 社内Proxyに阻まれていろいろ捗らない人のためのTips
 https://qiita.com/sachioksg/items/289e40d69382b1d09811
 
+
+### ■ Port Forward
+http://www.kagami.org/ssh/forwarding.html
+https://qiita.com/mechamogera/items/b1bb9130273deb9426f5
+
+■　ローカルフォワード
+  (Service Listen Port:23389)--LocalMachine(local ssh port: aabbcc) ---(ssh listen port:22)RemoteServer(Service local port:xxyyzz)  -- (Service Listen Port: 3389)TargetServer
+
+上記の場合、
+ ssh -L 23388:TargetServer:3388 RemoteServer
+外部からも利用したい場合、-gを付ける。
+
+
+Port Forward利用時、RemoteServer（Linux）にて以下で確認可能
+```
+[liyan@hndaws ~]$ netstat -aunt | grep -e 3389 -e 22
+tcp   0      0 0.0.0.0:22         0.0.0.0:*             LISTEN      --sshd listen port
+tcp   0    748 10.0.0.120:22      122.25.188.118:57427  ESTABLISHED --local:remote ssh conn
+tcp   0      0 10.0.0.120:41730   10.0.0.101:3389       ESTABLISHED --remote:target service conn
+```
+
+上記の場合のPort状態は、以下となります。
+  (Service Listen Port:23389)--LocalMachine(local ssh port: 57427) ---(ssh listen port:22)RemoteServer(Service local port:41730)  -- (Service Listen Port: 3389)TargetServer
+
+■　リモートフォワード
+https://qiita.com/Daisuke-Otaka/items/45828bcbcf871a67debe
+ ssh -R 8081:TargetServer:80 RemoteServer
+
+https://gist.github.com/scy/6781836
+Opening and closing an SSH tunnel in a shell script the smart way
+
 ## ★ ファイル処理系
 
 ### ■ HDD用量、サイズの大きいフォルダの確認
@@ -317,6 +350,11 @@ https://www.xmisao.com/2013/09/01/how-to-use-find-and-xargs.html
 xargsは標準入力から一覧を受け取って、それを引数に任意のコマンドを実行するコマンド。良くfindとセットで使われる
 ```
 
+## ★　システム構築
+### メールサーバ構築
+EC2にメールサーバを構築(複数ドメイン)
+https://qiita.com/shigejun/items/12fff88af10ce41102a3
+
 ## ★　Linux運用
 ### メール関連
 Postfix + MySQL (MariaDB)でメール転送の設定をする
@@ -327,6 +365,101 @@ http://blog.jicoman.info/2013/08/postfix_install/
 http://bashalog.c-brains.jp/12/07/31-185952.php  
 【CentOS】迷惑メール(スパム)扱いされない為の最低限設定しておきたい3つの設定【Postfix】  
 http://yuzurus.hatenablog.jp/entry/spam-mail
+
+#### mailx コマンドで、外部のSMTPサーバを経由してメール送信
+https://ttandai.info/archives/1913
+gmail利用する場合
+http://colibri.sblo.jp/article/103423197.html
+
+mailxの設定ファイル：.mailrc
+---
+account tb {
+set smtp-use-starttls
+set smtp=smtp://smtp.gmail.com:587
+set smtp-auth-user=trustbind2015@gmail.com
+set smtp-auth-password=xxxxxx
+set from=trustbind2015@gmail.com
+set nss-config-dir=certs trustbind2015@gmail.com
+set ssl-verify=ignore
+ }
+
+ 証明書関連：
+ ```
+ # Create a certificate directory
+~]$ mkdir certs
+
+# Create a new database in the certs dir
+~]$ certutil -N -d certs
+
+# Need now a chain certificate - May 18, 2015
+~]$ wget https://www.geotrust.com/resources/root_certificates/certificates/GeoTrust_Global_CA.cer
+
+# Need now a chain certificate part 2 - May 18, 2015
+~]$ mv GeoTrust_Global_CA.cer certs/
+
+# Fetch the certificate from Gmail, saving in the text file GMAILCERT
+# Added the CA opion - May 18, 2015
+~]$ echo -n | openssl s_client -connect smtp.gmail.com:465 -CAfile certs/GeoTrust_Global_CA.cer | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > GMAILCERT
+
+# Import the new cert file into the new database in the new dir
+~]$ certutil -A -n "Google Internet Authority" -t "C,," -d certs -i GMAILCERT
+
+# Double Check
+~]$ certutil -L -d certs
+
+Certificate Nickname                                         Trust Attributes
+                                                             SSL,S/MIME,JAR/XPI
+
+Google Internet Authority                                    C,,  
+```
+
+mailxコマンド
+echo "test mail." | mail -v -s "subject" -A tb useraaa@example.com
+
+※ Error in certificate: Peer's certificate issuer is not recognized. が残るが、送信的に問題なし
+
+Gmail側の設定
+下記「安全性の低いアプリの許可」を有効にする必要があるかも。
+https://myaccount.google.com/lesssecureapps
+https://myaccount.google.com/device-activity
+
+
+linux dailyreportを送信
+
+/root/script/dailyreport.sh
+```
+#!/bin/bash
+MAILBODY=/root/script/mail.txt
+echo Daily reporting of `date +%e\ %B\ %Y` for `hostname` > $MAILBODY
+echo "   " >> $MAILBODY
+
+#disk
+df -h >> $MAILBODY
+echo "   " >> $MAILBODY
+
+#system status
+w >> $MAILBODY
+echo "   " >> $MAILBODY
+
+#secure
+echo "Yesterday Invalid User login"  >> $MAILBODY
+less /var/log/secure | grep "`date -d '1 days ago ' +'%B %d'`" | grep "invalid user" | wc -l >>  $MAILBODY
+
+
+echo "Yesterday Session Opened User"  >> $MAILBODY
+less /var/log/secure | grep "`date -d '1 days ago ' +'%B %d'`" | grep "session opened"  >>  $MAILBODY
+
+cd ~
+mail -s "Daily reporting of `date +%e\ %B\ %Y`" -A tb li_y@weshare.jp < $MAILBODY
+```
+
+cronに登録
+```
+#vi /etc/crontab
+---
+5 0 * * * root /home/centos/dailyreport.sh
+```
+※毎日0時5分、rootユーザにてdailyreport.shを実行し、Linuxサーバ状況をメール送信
 
 ### LogWatch
 CentOS 7.0 - ログ解析ツール LogWatch 導入！
@@ -361,3 +494,13 @@ Parse tranfic detail from file
 https://reberhardt.com/blog/2016/10/10/capturing-https-traffic-with-tshark.html
 
 ### cron
+
+```
+#vi /etc/crontab
+---
+30 8 * * * centos /home/centos/dailyreport.sh
+```
+
+※毎日8時30分、centosユーザにてdailyreport.shを実行
+
+ログ： /var/log/cron
